@@ -4,9 +4,6 @@ python:
 sudo: required
 env:
   global:
-    - secure: ""
-    - secure: ""
-    - secure: ""
     - COMMIT_PREFIX=${TRAVIS_COMMIT::8}
     - DOCKER_REPO=patrickhulce/pythoncv
 services:
@@ -15,5 +12,5 @@ before_install:
   - ./build.sh $DOCKER_REPO:$COMMIT_PREFIX
 script:
   - docker run $DOCKER_REPO:$COMMIT_PREFIX /bin/sh -c "python /tmp/test.py"
-# after_success:
-#   - ./publish.sh $DOCKER_REPO $TRAVIS_BRANCH
+after_success:
+  - ./publish.sh $DOCKER_REPO $TRAVIS_BRANCH "$DOCKER_REPO:$COMMIT_PREFIX"
