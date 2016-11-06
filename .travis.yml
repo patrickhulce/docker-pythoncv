@@ -1,0 +1,19 @@
+language: python
+python:
+  - 2.7
+sudo: required
+env:
+  global:
+    - secure: ""
+    - secure: ""
+    - secure: ""
+    - COMMIT_PREFIX=${TRAVIS_COMMIT::8}
+    - DOCKER_REPO=patrickhulce/pythoncv
+services:
+  - docker
+before_install:
+  - ./build.sh $DOCKER_REPO:$COMMIT_PREFIX
+script:
+  - docker run $DOCKER_REPO:$COMMIT_PREFIX /bin/sh -c "python /tmp/test.py"
+# after_success:
+#   - ./publish.sh $DOCKER_REPO $TRAVIS_BRANCH
